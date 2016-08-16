@@ -1,5 +1,6 @@
-icache
+icache [![License](https://img.shields.io/npm/l/icache.svg)](https://github.com/strikeentco/icache/blob/master/LICENSE)  [![npm](https://img.shields.io/npm/v/icache.svg)](https://www.npmjs.com/package/icache)
 ==========
+[![Build Status](https://travis-ci.org/strikeentco/icache.svg)](https://travis-ci.org/strikeentco/icache) [![node](https://img.shields.io/node/v/icache.svg)](https://www.npmjs.com/package/icache)  [![Test Coverage](https://codeclimate.com/github/strikeentco/icache/badges/coverage.svg)](https://codeclimate.com/github/strikeentco/icache/coverage) [![bitHound Score](https://www.bithound.io/github/strikeentco/icache/badges/score.svg)](https://www.bithound.io/github/strikeentco/icache)
 
 **Note:** *This module stores all data in memory - remember that.*
 

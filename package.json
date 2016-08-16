@@ -1,7 +1,7 @@
 {
   "name": "icache",
   "author": "Alexey Bystrov <strikeentco@gmail.com>",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A simple queue cache of limited or unlimited length",
   "engines": {
     "node": ">=4.0.0"
@@ -21,7 +21,11 @@
     "main.js"
   ],
   "scripts": {
-    "lint": "eslint main.js"
+    "test": "mocha test",
+    "lint": "eslint main.js",
+    "check": "npm run lint && npm run test",
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "test-on-travis": "istanbul cover --report lcovonly ./node_modules/mocha/bin/_mocha"
   },
   "repository": {
     "type": "git",
@@ -36,7 +40,9 @@
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.13.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
-    "eslint-plugin-react": "^5.1.1"
+    "eslint-plugin-react": "^5.1.1",
+    "mocha": "^3.0.2",
+    "should": "^11.0.0"
   },
   "license": "MIT"
 }
