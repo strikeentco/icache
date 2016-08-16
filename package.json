@@ -1,0 +1,42 @@
+{
+  "name": "icache",
+  "author": "Alexey Bystrov <strikeentco@gmail.com>",
+  "version": "0.0.0",
+  "description": "A simple queue cache of limited or unlimited length",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "keywords": [
+    "cache",
+    "queue",
+    "fifo",
+    "first in",
+    "first out",
+    "simple",
+    "memory",
+    "caching"
+  ],
+  "main": "./main.js",
+  "files": [
+    "main.js"
+  ],
+  "scripts": {
+    "lint": "eslint main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strikeentco/icache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/strikeentco/icache/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.13.0",
+    "eslint-plugin-jsx-a11y": "^1.2.0",
+    "eslint-plugin-react": "^5.1.1"
+  },
+  "license": "MIT"
+}
