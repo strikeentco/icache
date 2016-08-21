@@ -27,7 +27,7 @@ class iCache {
     }
     const count = this.length - size;
     if (size !== 0 && count > 0) {
-      const elements = this._keys.slice(0, count);
+      const elements = this.keys().slice(0, count);
       elements.forEach(el => {
         this.del(el);
       });
@@ -37,6 +37,10 @@ class iCache {
 
   all() {
     return this.store;
+  }
+
+  keys() {
+    return this._keys;
   }
 
   has(key) {
@@ -68,7 +72,7 @@ class iCache {
   }
 
   del(key) {
-    const value = this._keys.indexOf(key);
+    const value = this.keys().indexOf(key);
     if (value !== -1) {
       this._keys.splice(value, 1);
       del.call(this, key);

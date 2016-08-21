@@ -1,7 +1,7 @@
 {
   "name": "icache",
   "author": "Alexey Bystrov <strikeentco@gmail.com>",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple queue cache of limited or unlimited length",
   "engines": {
     "node": ">=4.0.0"

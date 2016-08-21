@@ -1,12 +1,12 @@
 icache [![License](https://img.shields.io/npm/l/icache.svg)](https://github.com/strikeentco/icache/blob/master/LICENSE)  [![npm](https://img.shields.io/npm/v/icache.svg)](https://www.npmjs.com/package/icache)
 ==========
-[![Build Status](https://travis-ci.org/strikeentco/icache.svg)](https://travis-ci.org/strikeentco/icache) [![node](https://img.shields.io/node/v/icache.svg)](https://www.npmjs.com/package/icache)  [![Test Coverage](https://codeclimate.com/github/strikeentco/icache/badges/coverage.svg)](https://codeclimate.com/github/strikeentco/icache/coverage) [![bitHound Score](https://www.bithound.io/github/strikeentco/icache/badges/score.svg)](https://www.bithound.io/github/strikeentco/icache)
+[![Build Status](https://travis-ci.org/strikeentco/icache.svg)](https://travis-ci.org/strikeentco/icache) [![node](https://img.shields.io/node/v/icache.svg)](https://www.npmjs.com/package/icache) [![Test Coverage](https://codeclimate.com/github/strikeentco/icache/badges/coverage.svg)](https://codeclimate.com/github/strikeentco/icache/coverage) [![bitHound Score](https://www.bithound.io/github/strikeentco/icache/badges/score.svg)](https://www.bithound.io/github/strikeentco/icache)
 
 **Note:** *This module stores all data in memory - remember that.*
 
 A simple queue cache which follows FIFO strategy when size is specified.
 
-> **FIFO** is an acronym for **first in, first out**, a method for organizing and manipulating a data buffer, where the oldest (first) entry, or 'head' of the queue, is processed first. [Wiki](https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)
+> **FIFO** is an acronym for **first in, first out**, a method for organizing and manipulating a data buffer, where the oldest (first) entry, or 'head' of the queue, is processed first. [Wiki](https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics))
 
 When size isn't specified it's just a cache storage.
 
@@ -28,12 +28,15 @@ cache.has('user'); // -> true
 cache.put('email', 'strikeentco@gmail.com');
 cache.get('email'); // -> 'strikeentco@gmail.com'
 cache.clear();
-cache.all(); // -> { }
+cache.keys(); // -> []
+cache.all(); // -> {}
 
 cache.put('github', { user: 'strikeentco', email: 'strikeentco@gmail.com' });
+cache.keys(); // -> ['github']
 cache.all(); // -> { github: { user: 'strikeentco', email: 'strikeentco@gmail.com' } }
 cache.del('github');
-cache.all(); // -> { }
+cache.keys(); // -> []
+cache.all(); // -> {}
 ```
 
 # Methods
@@ -125,6 +128,16 @@ cache.has('new'); // -> true
 cache.has('old'); // -> false
 ```
 
+## .keys()
+
+Returns an array of elements keys from a Cache.
+
+```javascript
+cache.put('new', 'element');
+cache.put('newer', 'element');
+cache.keys(); // ['new', 'newer']
+```
+
 ## .del(key)
 
 Removes the specified element from a Cache.
@@ -142,8 +155,10 @@ cache.del('new').has('new'); // -> false
 
 Returns an object with all Cache elements.
 
+Order is not guaranteed. For correct order, use in combination with [.keys()](#keys). [Example](#adding-new-method).
+
 ```javascript
-cache.put(1, null).put(2, null);
+cache.put('1', null).put('2', null);
 cache.all(); // -> { 1: null, 2: null }
 ```
 
@@ -152,7 +167,7 @@ cache.all(); // -> { 1: null, 2: null }
 Removes all elements from a Cache.
 
 ```javascript
-cache.put(1, null).put(2, null).all(); // -> { 1: null, 2: null }
+cache.put('1', null).put('2', null).all(); // -> { 1: null, 2: null }
 cache.clear().all(); // -> { }
 ```
 
@@ -172,6 +187,58 @@ cache.put('old', 'element');
 cache.expire('old', 1); // will be removed after 1 second
 cache.put('new', 'element', 5); // will be removed after 5 seconds
 cache.expire('new', 0); // will cancel timeout
+```
+
+# Examples
+
+## Adding new method
+
+```javascript
+const Cache = require('icache');
+
+class ExtCache extends Cache {
+  allInOrder() { // will return array with all Cache elements in accordance with this.keys() order
+    return this.keys().map(key => ({ [key]: this.get(key) }));
+  }
+}
+
+const cache = new ExtCache();
+cache.put(2, 'element');
+cache.put(3, 'element');
+cache.put('1', 'element');
+
+cache.all(); // -> { 1: 'element', 2: 'element', 3: 'element' }
+cache.allInOrder(); // -> [{ 2: 'element' }, { 3: 'element' }, { 1: 'element' }]
+
+cache.setSize(2);
+
+cache.all(); // -> { 1: 'element', 3: 'element' }
+cache.allInOrder(); // -> [{ 3: 'element' }, { 1: 'element' }]
+```
+
+## Caching last 5 requests
+
+```javascript
+const Cache = require('icache');
+const app = require('express')();
+const co = require('co');
+const get = require('yarl').get;
+
+const cache = new Cache(5);
+
+app.get('/user/:name', (req, res) => {
+  co(function* () {
+    const name = req.params.name;
+    if (cache.has(name)) {
+      return res.json(cache.get(name));
+    }
+    const data = (yield get(`https://api.github.com/users/${name}`, { json: true })).body;
+    cache.put(name, data);
+    res.json(data);
+  }).catch(e => res.status(500).json(e));
+});
+
+app.listen(3000);
 ```
 
 ## License

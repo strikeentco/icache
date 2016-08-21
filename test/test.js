@@ -108,15 +108,27 @@ describe('iCache()', () => {
     });
   });
 
+  describe('.keys()', () => {
+    it('should be ok', () => {
+      const cache = new Cache();
+      cache.put(2, 2).put(1, 1).put(3, 3);
+      should(cache.keys()).be.eql([2, 1, 3]);
+      cache.setSize(2);
+      should(cache.keys()).be.eql([1, 3]);
+      cache.del(3);
+      should(cache.keys()).be.eql([1]);
+    });
+  });
+
   describe('.all()', () => {
     it('should be ok', () => {
       const cache = new Cache();
-      cache.put(1, 1).put(2, 2).put(3, 3);
+      cache.put(2, 2).put(1, 1).put(3, 3);
       should(cache.all()).be.eql({ 1: 1, 2: 2, 3: 3 });
       cache.setSize(2);
-      should(cache.all()).be.eql({ 2: 2, 3: 3 });
+      should(cache.all()).be.eql({ 1: 1, 3: 3 });
       cache.del(3);
-      should(cache.all()).be.eql({ 2: 2 });
+      should(cache.all()).be.eql({ 1: 1 });
     });
   });
 
