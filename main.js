@@ -52,6 +52,7 @@ class iCache {
   }
 
   put(key, val, time) {
+    key = key.toString();
     if (this.has(key)) {
       this.del(key);
       this.put(key, val, time);
@@ -81,6 +82,9 @@ class iCache {
   }
 
   clear() {
+    this._keys.forEach(el => {
+      this.expire(el, 0);
+    });
     this._keys = [];
     this._timers = {};
     this.store = {};
