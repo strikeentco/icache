@@ -27,10 +27,7 @@ class iCache {
     }
     const count = this.length - size;
     if (size !== 0 && count > 0) {
-      const elements = this.keys().slice(0, count);
-      elements.forEach(el => {
-        this.del(el);
-      });
+      this.keys().slice(0, count).map(el => this.del(el));
     }
     return this;
   }
@@ -44,7 +41,7 @@ class iCache {
   }
 
   has(key) {
-    return this.all().hasOwnProperty(key);
+    return Object.prototype.hasOwnProperty.call(this.all(), key);
   }
 
   get(key) {
@@ -52,7 +49,7 @@ class iCache {
   }
 
   put(key, val, time) {
-    key = key.toString();
+    key = `${key}`;
     if (this.has(key)) {
       this.del(key);
       this.put(key, val, time);
@@ -82,9 +79,7 @@ class iCache {
   }
 
   clear() {
-    this._keys.forEach(el => {
-      this.expire(el, 0);
-    });
+    this._keys.map(el => this.expire(el, 0));
     this._keys = [];
     this._timers = {};
     this.store = {};

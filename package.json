@@ -1,7 +1,7 @@
 {
   "name": "icache",
   "author": "Alexey Bystrov <strikeentco@gmail.com>",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A simple queue cache of limited or unlimited length",
   "engines": {
     "node": ">=4.0.0"
@@ -36,11 +36,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^2.9.0",
-    "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-import": "^1.14.0",
-    "eslint-plugin-jsx-a11y": "^1.2.0",
-    "eslint-plugin-react": "^5.1.1",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
     "mocha": "^3.0.2",
     "should": "^11.0.0"
   },
